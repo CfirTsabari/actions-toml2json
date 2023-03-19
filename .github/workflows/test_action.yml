@@ -1,0 +1,31 @@
+name: Test actions-pipx action
+on:
+  workflow_call:
+jobs:
+  build: # make sure build/ci work properly
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          npm install
+      - run: |
+          npm run all
+          npm run format-check
+
+  run:
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-22.04, windows-2019, windows-2022, macos-11,macos-12]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: convert toml to json
+        id: convert
+        uses: ./
+        with:
+          toml-file-path: test_data/example.toml
+      - name: validate output
+        run: '[[ ${{ fromJSON(steps.convert.outputs.json-output).server.host }} != "localhost" ]] && exit 1'
+      
+        
