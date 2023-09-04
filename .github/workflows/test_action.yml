@@ -6,7 +6,7 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set Node.js 16.x
         uses: actions/setup-node@v3.6.0
@@ -44,7 +44,7 @@ jobs:
         os: [ubuntu-20.04, ubuntu-22.04, windows-2019, windows-2022, macos-11,macos-12]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: convert toml to json
         id: convert
         uses: ./
